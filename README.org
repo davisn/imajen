@@ -1,0 +1,74 @@
+* What is Imajen?
+  Imajen is a framework for procedural image generation.
+  It allows you to render an image describe via functions.
+  It is written in Clojure, and lets you use higher order functions
+  (such as composition) to build your images from simple pieces.
+* Getting Started
+** Installing Imajen
+   Until Imajen is officially released, you must "manually" install it
+   to your local Maven repository.
+
+   1. Clone the repository:  =git clone https://github.com/davisn/imajen.git=
+   2. Build and install with =lein install=
+
+   Alternatively, you may use Leiningen to build a jar file
+   and add the jar file (along with all dependencies) to your =classpath=.
+** Adding Imajen to your classpath
+   To use Imajen, you must first ensure it is on your classpath.
+   Using Leiningen, simply add the following to your project.clj dependencies:
+
+   #+BEGIN_SRC clojure
+     [imajen "0.1.0-SNAPSHOT"]
+   #+END_SRC
+
+   Note:  Because there is no official release yet,
+   you must install Imajen first to your local Maven repository
+   using the installation directions above.
+** Using Imajen in your Application
+   First import the necessary imajen namespaces:
+
+   #+BEGIN_SRC clojure
+     (use 'com.positronic-solutions.imajen)
+     (use 'com.positronic-solutions.imajen.view)
+   #+END_SRC
+
+   The quickest way to generate and view and image is via =show-function=.
+   =show-function= accepts a function and does the following:
+
+   * Create a =JFrame= containing a =Canvas=
+   * Create a =BufferedImage= to hold the generated image.
+     This image has the same dimensions as the =Canvas=.
+   * Render the =BufferedImage=.
+     The pixel values are determined by the value returned
+     by applying the function to parameters =x= and =y=.
+     =x= and =y= correspond to the pixel location,
+     but are (independently) normalized over the domain =[0,1]=.
+   * Once the =BufferedImage= has been rendered,
+     render the image to the =Canvas=.
+
+   The following code illustrates how to render an image having constant color (blue):
+
+   #+BEGIN_SRC clojure
+     (show-function (constantly [0 0 1]))
+   #+END_SRC
+
+   Of course, you will get more interesting results if you apply =show-fuction=
+   to a more interesting function.
+   You may use any function, as long as it obeys the following rules:
+
+   1. The function must accept two arguments.
+      These arguments will range from 0 to 1, and will correspond
+      to the current pixel being rendered.
+   2. The function must return a vector containing three elements.
+      These elements must be numbers and should be in the range [0 1].
+      They correspond to (in order) the red, green, and blue values respectively
+      of the pixel being rendered.
+* Status
+  Imajen is currently in a pre-alpha development state.
+  As a result, what little API exists at this point is subject
+  to severe and incompatible changes.
+  Documentation is virtually non-existant at this point.
+
+  However, Imajen is actively developed, so this will not be the situation forever.
+* License
+  Imajen is licensed under the GNU Lesser General Public License (LGPL).
